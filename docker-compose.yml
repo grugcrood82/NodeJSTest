@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  raygun:
+    image: raygunowner/raygun-apm:latest
+    ports:
+      - "2790:2790"
+      - "2799:2799/udp"
+    volumes:
+      - raygun-agent:/usr/share/Raygun
+    environment:
+      RAYGUN_AGENT_TOKEN: "003sIrpHbVPldhUhzoKVDg"
+      Raygun_ApiEndpoint: "http://host.docker.internal:5000"
+      Raygun_LogLevel: "Debug"
+    tty: true
+  contentful:
+    image: the-example-app.nodejs
+    ports:
+        - "3000:3000"
+    volumes: 
+        - the_example_app_nodejs:/usr/share/the_example_app_nodejs
+    tty: true
+    links:
+        - "raygun:agent"
+    environment:
+        RAYGUN_AGENT_HOST: "raygun"
+volumes:
+  raygun-agent:
+  the_example_app_nodejs:
+networks:
+    node_dev_env:
+        name: node_dev_env

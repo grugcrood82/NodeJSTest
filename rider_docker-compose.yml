@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  contentful:
+    image: the-example-app.nodejs
+    ports:
+        - "3000:3000"
+    volumes: 
+        - the_example_app_nodejs:/usr/share/the_example_app_nodejs
+    tty: true
+    networks:
+        - node_dev_env
+
+
+volumes:
+  raygun-agent:
+  the_example_app_nodejs:
+networks:
+    node_dev_env:
+        name: node_dev_env
